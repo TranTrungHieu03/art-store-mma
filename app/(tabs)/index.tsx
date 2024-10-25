@@ -1,31 +1,50 @@
-import { StyleSheet } from 'react-native';
+import {
+    
+    Animated, View,
+    
+} from 'react-native';
+import ScrollView = Animated.ScrollView;
+import Search from "@/components/Search";
+import React from "react";
+import CardBrand from "@/components/CardBrand";
+import {LinearGradient} from "expo-linear-gradient";
+import ListProduct from "@/components/ListProduct";
+import MoreAction from "@/components/MoreAction";
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
-
-export default function TabOneScreen() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
-    </View>
-  );
+export interface ProductModel {
+    id: string;
+    artName: string;
+    price: number;
+    description: string;
+    glassSurface: boolean;
+    image: string;
+    brand: string;
+    limitedTimeDeal: number;
+    comments: IComment[];
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
+export interface IComment {
+    rating: number;
+    content: string;
+    username: string;
+    date_time: string
+}
+
+export default function TabOneScreen() {
+    
+    return (
+        
+        <View style={{flex: 1}}>
+            <LinearGradient colors={["#f7e4e5", "#fff"]} className={''}>
+                <Search/>
+                <CardBrand/>
+                <View className={'py-2'}></View>
+                
+                
+                <ListProduct/>
+            
+            </LinearGradient>
+        </View>
+    
+    );
+}
