@@ -35,6 +35,7 @@ const Search = () => {
             {searchQuery && <TouchableOpacity onPress={() => {
                 setSearchQuery('')
                 router.setParams({artName: ''});
+                // Keyboard.();
             }} className={'p-2'}>
                 <Feather name={'x-circle'} color={'grey'} size={24}
                          className={'absolute z-10 right-[30px] -top-2 transform '}/>

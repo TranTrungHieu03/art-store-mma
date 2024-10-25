@@ -5,6 +5,7 @@ import Feather from "@expo/vector-icons/Feather";
 import Toast from "react-native-toast-message";
 import {useWishlist} from "@/components/useProductContext";
 import {ProductModel} from "@/app/(tabs)";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 type Props = {
     item: ProductModel | null;
@@ -41,8 +42,12 @@ const BtnFavorite = ({item}: Props) => {
             hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
             onPress={handleFavoritePress}
         >
-            {!favorited ? <Feather name="heart" size={28} color={"#ccc"}/> :
-                <Image source={require('@/assets/images/icons8-heart-30.png')} style={{width: 32, height: 32}}/>}
+            {!favorited ? <FontAwesome name="heart"
+                                       size={26}
+                                       color="grey"/> :
+                <FontAwesome name="heart"
+                             size={26}
+                             color="red"/>}
         </TouchableOpacity>
     );
 };

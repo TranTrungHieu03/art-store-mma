@@ -2,7 +2,6 @@ import React from 'react';
 import {Text, View} from "react-native";
 import {IComment} from "@/app/(tabs)";
 import {Divider} from "react-native-paper";
-import {AntDesign} from "@expo/vector-icons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 const Comment = ({data}: { data: IComment }) => {
@@ -32,7 +31,7 @@ const Comment = ({data}: { data: IComment }) => {
                     </View>
                 </View>
                 <Text className={'text-md font-light'}>{data.content}</Text>
-                <View className={'flex-row items-center justify-end'}>
+                <View className={'flex-row items-center justify-end py-1'}>
                     <Text className={'font-medium text-sm  '}>{data.date_time}</Text>
                 </View>
             </View>

@@ -73,7 +73,7 @@ export default function TabTwoScreen() {
     return (
         <ScrollView>
             <GestureHandlerRootView>
-                <View className={'mx-2 flex-row flex-wrap justify-center'}>
+                <View className={'mx-2 flex-row flex-wrap justify-center relative'}>
                     {data && data.length > 0 && (
                         data.map((item) => {
                                 if (wishlist.includes(item.id)) {
@@ -134,16 +134,25 @@ export default function TabTwoScreen() {
                                                               numberOfLines={2}
                                                               ellipsizeMode="tail">{item.artName}</Text>
                                                         
-                                                        <View className={'flex-row items-center'}>
-                                                            <Text style={{
-                                                                fontWeight: 'bold',
-                                                                color: 'red',
-                                                                fontSize: 16,
-                                                                marginRight: 10
-                                                            }}>{formatPrice((1 - item.limitedTimeDeal) * item.price * 1000.0)}</Text>
-                                                            <Text
-                                                                style={{textDecorationLine: 'line-through'}}>{formatPrice(item.price * 1000.0)}</Text>
-                                                        </View>
+                                                        {
+                                                            item.limitedTimeDeal == 0 ? (
+                                                                <Text style={{
+                                                                    fontWeight: 'bold',
+                                                                    color: 'red',
+                                                                    fontSize: 16,
+                                                                    marginRight: 10
+                                                                }}>{formatPrice(item.price * 1000.0)}</Text>
+                                                            ) : <View className={'flex-row items-center'}>
+                                                                <Text style={{
+                                                                    fontWeight: 'bold',
+                                                                    color: 'red',
+                                                                    fontSize: 16,
+                                                                    marginRight: 10
+                                                                }}>{formatPrice((1 - (item?.limitedTimeDeal ?? 0)) * item.price * 1000.0)}</Text>
+                                                                <Text
+                                                                    style={{textDecorationLine: 'line-through'}}>{formatPrice(item.price * 1000.0)}</Text>
+                                                            </View>
+                                                        }
                                                     </View>
                                                 
                                                 

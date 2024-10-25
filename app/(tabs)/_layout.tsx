@@ -22,7 +22,7 @@ export default function TabLayout() {
     const {clearWishlist, wishlist} = useWishlist()
     const handleDelete = () => {
         Alert.alert(
-            "Confirm Delete",
+            "Confirm Remove",
             `Do you wanna remove all from your wishlist?`,
             [
                 {
@@ -52,7 +52,7 @@ export default function TabLayout() {
                 name="index"
                 options={{
                     title: 'Home',
-                    headerTitle: "ART SHOP",
+                    headerTitle: "Art Store",
                     tabBarIcon: ({color}) => <TabBarIcon name="home" color={color}/>,
                 }}
             />

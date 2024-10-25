@@ -72,7 +72,7 @@ const ListProduct = () => {
         return <Pressable
             key={item.id} style={{marginBottom: 10, flexBasis: '49%'}}
             className={'rounded-md  shadow-md'}
-            onPress={() => router.push(`./products/${item.id}`)}
+            onPress={() => router.push(`/products/${item.id}`)}
         >
             <LinearGradient colors={["#FDF0F3", "#FFFBFC"]}>
                 <View className={'bg-white py-2 relative'}>
