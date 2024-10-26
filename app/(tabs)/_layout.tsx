@@ -59,8 +59,8 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="two"
                 options={{
-                    title: 'Wishlist',
-                    headerTitle: `Wishlist (${wishlist.length ?? 0})`,
+                    title: 'Favourite',
+                    headerTitle: `Favourite (${wishlist.length ?? 0})`,
                     tabBarIcon: ({color}) => <TabBarIcon name="heart" color={color}/>,
                     headerRight: () => (
                         <TouchableOpacity onPress={handleDelete} disabled={wishlist.length === 0}>

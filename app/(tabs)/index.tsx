@@ -3,13 +3,12 @@ import {
     Animated, View,
     
 } from 'react-native';
-import ScrollView = Animated.ScrollView;
 import Search from "@/components/Search";
-import React from "react";
+import React, {useCallback} from "react";
 import CardBrand from "@/components/CardBrand";
 import {LinearGradient} from "expo-linear-gradient";
 import ListProduct from "@/components/ListProduct";
-import MoreAction from "@/components/MoreAction";
+import {useFocusEffect, useLocalSearchParams, useRouter} from "expo-router";
 
 export interface ProductModel {
     id: string;
@@ -31,7 +30,7 @@ export interface IComment {
 }
 
 export default function TabOneScreen() {
-    
+ 
     return (
         
         <View style={{flex: 1}}>

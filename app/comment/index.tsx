@@ -130,16 +130,16 @@ const Index = () => {
                         [...Array(7)].map((_, index) => (
                             
                             (index === 6) ?
-                                (<TouchableOpacity key={index} onPress={() => router.setParams({rating: undefined})}
+                                (<TouchableOpacity key={`comment-${index}`} onPress={() => router.setParams({rating: undefined})}
                                                    className={`  items-center p-3 border border-gray-50 ${!(Number(rating) >= 0 && Number(rating) < 6) && 'bg-[#e0f58c] font-bold'}`}>
                                     <Text
                                         className={`text-lg mr-2 ${!(Number(rating) >= 0 && Number(rating) < 6) && 'bg-[#e0f58c] font-semibold'}`}>All</Text>
-                                    <Text
+                                    <Text key={`comment-${index}`}
                                         className={`text-lg   ${!(Number(rating) >= 0 && Number(rating) < 6) && 'bg-[#e0f58c] font-semibold shadow'}`}>({data?.comments.length})</Text>
                                 </TouchableOpacity>) :
-                                (<TouchableOpacity key={index} onPress={() => router.setParams({rating: index})}
-                                                   className={`  items-center p-3 border border-gray-50  ${(Number(rating) >= 0 && Number(rating) < 6) && 'bg-[#e0f58c] font-bold'}`}>
-                                    <View className={'flex-row'}>
+                                (<TouchableOpacity key={`comment-${index}`} onPress={() => router.setParams({rating: index})}
+                                                   className={`  items-center p-3 border border-gray-50  ${(Number(rating) === index) && 'bg-[#e0f58c] font-bold'}`}>
+                                    <View className={'flex-row'} key={`comment-${index}`}>
                                         <Text
                                             className={`text-lg mr-2 ${(Number(rating) === index) && 'bg-[#e0f58c] font-semibold'}`}>{index}</Text>
                                         <FontAwesome

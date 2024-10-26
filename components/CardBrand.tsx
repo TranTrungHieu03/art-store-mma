@@ -1,8 +1,8 @@
 import Colors from "@/constants/Colors";
 
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {FlatList, Text, TouchableOpacity, View} from "react-native";
-import {router, useLocalSearchParams} from "expo-router";
+import {router, useFocusEffect, useLocalSearchParams} from "expo-router";
 import {ProductModel} from "@/app/(tabs)";
 
 const BrandsList = () => {
@@ -10,6 +10,7 @@ const BrandsList = () => {
     const [error, setError] = useState<string | null>(null);
     const [brands, setCategories] = useState<{ brand: string, quantity: number }[]>([]);
     let num = 0;
+    
     const API_URL = 'https://66ee3d34380821644cdf047b.mockapi.io/api/v1/Products';
     useEffect(() => {
         let isMounted = true; // To track whether component is still mounted
@@ -65,10 +66,18 @@ const BrandsList = () => {
     if (error) {
         return <Text>Error: {error}</Text>;
     }
+    
+    useFocusEffect(useCallback(() => {
+        return () => {
+            router.setParams({ brand: undefined, artName: undefined });
+        };
+    }, []) )
+    console.log(artNameQuery)
     const CardBrand = ({brand, quantity}: { brand: string, quantity: number }) => {
         const isSelected =
             brand === selectedBrand || (brand === "All" && !selectedBrand);
         
+       
         return (
             <TouchableOpacity
                 className={`shadow-md rounded-md py-2 px-3 flex-1 justify-center items-center ${

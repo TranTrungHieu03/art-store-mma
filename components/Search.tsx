@@ -1,19 +1,29 @@
-import React, {useState} from 'react';
-import {Keyboard, TextInput, TouchableOpacity, View} from "react-native";
-import Colors from "@/constants/Colors";
+import React, {useCallback, useState} from 'react';
+import { Keyboard, TextInput, TouchableOpacity, View} from "react-native";
 import {Feather} from "@expo/vector-icons";
-import {useLocalSearchParams, useRouter} from "expo-router";
+import {useFocusEffect, useLocalSearchParams, useRouter} from "expo-router";
 
 const Search = () => {
-    const [searchQuery, setSearchQuery] = useState("");
+    const [searchQuery, setSearchQuery] = useState('');
+    const [showSuggestions, setShowSuggestions] = useState(false);
     const {brand} = useLocalSearchParams();
-    const router = useRouter()
+    const router = useRouter();
     const brandQuery = Array.isArray(brand) ? brand[0] : brand;
+    
+    useFocusEffect(
+        useCallback(() => {
+            return () => {
+                setSearchQuery('');
+                router.setParams({artName: ''});
+            };
+        }, [])
+    );
     
     const handleSearch = () => {
         Keyboard.dismiss();
-        if (searchQuery === "") {
-            router.push("/");
+        setShowSuggestions(false);
+        if (searchQuery === '') {
+            router.push('/');
             if (brandQuery !== undefined) {
                 router.setParams({brand: brandQuery});
             }
@@ -21,31 +31,56 @@ const Search = () => {
             router.setParams({artName: searchQuery});
         }
     };
+    
+    const handleClearSearch = () => {
+        setSearchQuery('');
+        setShowSuggestions(false);
+        router.setParams({artName: ''});
+        Keyboard.dismiss()
+    };
+    
     return (
-        <View className="p-4 flex-row items-center">
-            <TextInput
-                placeholder="Search..."
-                value={searchQuery}
-                onChangeText={setSearchQuery}
-                onSubmitEditing={handleSearch}
-                returnKeyType="search"
-                className="border border-gray-300 rounded-md p-2 flex-1 relative"
-                style={{backgroundColor: "#fff"}}
-            />
-            {searchQuery && <TouchableOpacity onPress={() => {
-                setSearchQuery('')
-                router.setParams({artName: ''});
-                // Keyboard.();
-            }} className={'p-2'}>
-                <Feather name={'x-circle'} color={'grey'} size={24}
-                         className={'absolute z-10 right-[30px] -top-2 transform '}/>
-            </TouchableOpacity>}
-            <TouchableOpacity
-                onPress={handleSearch}
-                className="ml-2 rounded p-2  "
-                style={{backgroundColor: Colors.primaryColor}}>
-                <Feather name="search" size={24} color={'#fff'}/>
-            </TouchableOpacity>
+        <View className="p-4 relative">
+            {/* Search Input with Prefix Icon */}
+            <View className="flex-row items-center border border-gray-300 rounded-md p-2 bg-white">
+                <Feather name="search" size={20} color="grey" style={{marginRight: 8}}/>
+                <TextInput
+                    placeholder="Search..."
+                    value={searchQuery}
+                    onChangeText={(text) => {
+                        setSearchQuery(text);
+                        setShowSuggestions(text.length > 0);
+                    }}
+                    onSubmitEditing={handleSearch}
+                    returnKeyType="search"
+                    className="flex-1"
+                />
+                {searchQuery && (
+                    <TouchableOpacity onPress={handleClearSearch} className="p-2">
+                        <Feather name="x-circle" color="grey" size={20}/>
+                    </TouchableOpacity>
+                )}
+            </View>
+            
+            {/* Suggestions List */}
+            {showSuggestions && (
+                <View className="absolute  top-[62px] left-4 right-4 bg-white border border-gray-300 rounded-md z-10">
+                    
+                    <TouchableOpacity
+                        onPress={() => {
+                            setSearchQuery(searchQuery);
+                            setShowSuggestions(false);
+                            handleSearch();
+                        }}
+                        className="p-2 border-b border-gray-200  flex-row justify-between items-center"
+                    >
+                        <TextInput>{searchQuery}</TextInput>
+                        <Feather name={'arrow-right'} size={24} color="grey" className={'px-2'}/>
+                    </TouchableOpacity>
+                    
+                
+                </View>
+            )}
         </View>
     );
 };

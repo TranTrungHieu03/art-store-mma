@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {ActivityIndicator, FlatList, Image, Pressable, ScrollView, Text, TouchableOpacity, View} from "react-native";
 import {LinearGradient} from "expo-linear-gradient";
 import BtnFavorite from "@/components/BtnFavourite";
 import DiscountCard from "@/components/DiscountCard";
 import {formatPrice} from "@/utils/formatPrice";
 import {ProductModel} from "@/app/(tabs)";
-import {useLocalSearchParams, useRouter} from "expo-router";
+import {useFocusEffect, useLocalSearchParams, useRouter} from "expo-router";
 import {Feather} from "@expo/vector-icons";
 
 const ListProduct = () => {
@@ -47,22 +47,31 @@ const ListProduct = () => {
             isMounted = false;
         };
     }, [artName, brand]);
-    
-    if (loading) {
-        return <ActivityIndicator size="large" color="#0000ff"/>;
-    }
-    const handleRefresh = async () => {
+    const handleRefresh =  () => {
         router.setParams({brand: ''});
         router.setParams({artName: ''});
     }
+    useFocusEffect(
+        useCallback(() => {
+            handleRefresh();
+            return () => {
+                handleRefresh();
+            };
+        }, [])
+    );
+ 
+    if (loading) {
+        return <ActivityIndicator size="large" color="#0000ff"/>;
+    }
+   
     
     if (data.length === 0) {
         return <View className={'flex items-center justify-center h-[80vh]'}>
             <Text className={'text-center text-lg my-2'}>No products found</Text>
-            <TouchableOpacity className={'flex-row items-center mt-2'} onPress={() => handleRefresh()}>
-                <Feather name={"refresh-cw"} className={"mr-2"} size={25}/>
-                <Text className={'text-center text-lg'}>Refresh</Text>
-            </TouchableOpacity>
+            {/*<TouchableOpacity className={'flex-row items-center mt-2'} onPress={() => handleRefresh()}>*/}
+            {/*    <Feather name={"refresh-cw"} className={"mr-2"} size={25}/>*/}
+            {/*    <Text className={'text-center text-lg'}>Refresh</Text>*/}
+            {/*</TouchableOpacity>*/}
         </View>
     }
     if (error) {
